@@ -27,4 +27,4 @@ WorkSpacey is a dynamic Discord bot designed to help manage workspaces with ease
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/yourusername/WorkSpacey.git
+   git clone https://github.com/X-XENDROME-X/WorkSpacey.git
