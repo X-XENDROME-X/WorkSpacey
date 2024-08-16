@@ -1,4 +1,6 @@
+<p align="center">
 # WorkSpacey 💼
+</p>
 
 <p align="center">
   <img src="Logo1.png" alt="WorkSpacey Logo" width="400"/>
