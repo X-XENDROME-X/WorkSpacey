@@ -31,8 +31,3 @@ WorkSpacey is a dynamic Discord bot designed to help manage workspaces with ease
 - **Time Management**: Handling time zones and timestamps to ensure accurate tracking and notifications.
 - **Problem-Solving**: Designing and implementing features to streamline workspace management in Discord.
 
-## 📂 Installation
-
-1. Clone the repository
-   ```bash
-   git clone https://github.com/X-XENDROME-X/WorkSpacey.git
