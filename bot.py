@@ -140,7 +140,11 @@ async def startbreak(interaction: discord.Interaction, reason: str):
     message = f'{interaction.user.mention} Started a Break: {timestamp}. \nReason: {reason}'
     await interaction.response.send_message(message)
     users_on_break[interaction.user.id] = interaction.user
-    user_status[interaction.user.id]["timestamp"] = datetime.now(est)
+    if interaction.user.id not in user_status:
+        user_status[interaction.user.id] = {"timestamp": datetime.now(est), "last_notified": None}
+    else:
+        user_status[interaction.user.id]["timestamp"] = datetime.now(est)
+        user_status[interaction.user.id]["last_notified"] = None
     
 
 @bot.tree.command(name="endbreak", description="End your current break.")
