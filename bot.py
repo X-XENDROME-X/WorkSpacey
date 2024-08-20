@@ -45,12 +45,12 @@ async def remind_long_break():
     for user_id, user in users_on_break.items():
         break_start_time = user_status[user_id]["timestamp"]
         break_duration = now - break_start_time
-        if break_duration >= timedelta(hours=5):
+        if break_duration >= timedelta(hours=5) and (user_status[user_id]["last_notified"] is None or now - user_status[user_id]["last_notified"] >= timedelta(hours=5)):
             try:
                 await user.send("Reminder: You've been on break for 5 hours. Please consider logging off.")
                 user_status[user_id]["last_notified"] = now
             except discord.Forbidden:
-                pass             
+                pass           
 
 @bot.event
 async def on_ready():
