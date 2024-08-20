@@ -64,5 +64,5 @@ Get WorkSpacey up and running in no time:
 4. 🚀 Launch your productivity revolution:
 `python bot.py`
 
-Ready to skyrocket your team's efficiency? DiscordPro is your launchpad to success! 🚀💫
+Ready to skyrocket your team's efficiency? This is your launchpad to success! 🚀💫
 
