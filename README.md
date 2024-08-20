@@ -58,5 +58,11 @@ Get WorkSpacey up and running in no time:
 
 1. 📥 Clone this cosmic repository
 2. 🔧 Install the galactic dependencies:
+`pip install -r requirements.txt`
+3. 🔑 Set up your secret `.env` file:
+`BOT_ID=your_magical_bot_token_here`
+4. 🚀 Launch your productivity revolution:
+`python bot.py`
 
+Ready to skyrocket your team's efficiency? DiscordPro is your launchpad to success! 🚀💫
 
