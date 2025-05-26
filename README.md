@@ -51,6 +51,7 @@ WorkSpacey isn't just about features; it's a testament to advanced coding prowes
 8. **⚙️ Automation Ace**: Set-it-and-forget-it tasks that keep your team on track
 9. **🎨 UX Maestro**: Intuitive commands that feel like second nature
 10. **🏗️ Code Architecture Aficionado**: A foundation so solid, it's ready for anything
+11. **💻 Extensibility: Designed with modular logic, enabling adaptation for platforms like Slack, Microsoft Teams, Zoom, Telegram, and Mattermost, with further API integrations
 
 ## 🚀 Blast Off in 3... 2... 1...
 
