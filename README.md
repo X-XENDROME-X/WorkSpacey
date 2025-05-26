@@ -30,6 +30,14 @@ WorkSpacey isn't just a bot; it's your personal productivity coach, time manager
 - `/status`: Get a bird's-eye view of your team's activities
 - `/work_summary`: Instantly aligned with everyone's focus areas
 
+### 📣 Team Announcements
+- `/announce`: Send team-wide announcements to a channel, DMs, or both with an @everyone ping
+- 🔔 Notifies all members instantly, ensuring critical updates are never missed
+
+### 🗳️ Interactive Polls
+- `/poll`: Create polls for team decisions (e.g., meeting times) with reaction-based voting
+- ⏱️ Set custom durations (up to 30 minutes) in seconds or minutes for flexible voting periods
+
 ### 📅 Meeting Maestro
 - `/meeting_schedule`: Coordinate like a pro with custom meeting setups
 - 📧 Automatic DM notifications keep everyone in the loop
@@ -52,6 +60,8 @@ WorkSpacey isn't just about features; it's a testament to advanced coding prowes
 9. **🎨 UX Maestro**: Intuitive commands that feel like second nature
 10. **🏗️ Code Architecture Aficionado**: A foundation so solid, it's ready for anything
 11. **💻 Extensibility**: Designed with modular logic, enabling adaptation for platforms like Slack, Microsoft Teams, Zoom, Telegram, and Mattermost, with further API integrations
+12. **📬 Notification Expertise**: Seamless @everyone pings and DM notifications for effective team communication
+13. **🗳️ Interactive Design**: Reaction-based voting systems for dynamic team engagement
 
 ## 🚀 Blast Off in 3... 2... 1...
 
@@ -62,7 +72,8 @@ Get WorkSpacey up and running in no time:
 `pip install -r requirements.txt`
 3. 🔑 Set up your secret `.env` file:
 `BOT_ID=your_magical_bot_token_here`
-4. 🚀 Launch your productivity revolution:
+`ADMIN_ROLE=Admin` (Optional: Set your admin role name for announcements)
+5. 🚀 Launch your productivity revolution:
 `python bot.py`
 
 Ready to skyrocket your team's efficiency? This is your launchpad to success! 🚀💫
