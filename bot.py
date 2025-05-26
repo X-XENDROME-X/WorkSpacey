@@ -188,15 +188,19 @@ async def status(interaction: discord.Interaction):
     
     await interaction.followup.send(message)
 
-@bot.tree.command(name="help", description="List all available commands and their descriptions.")
+@bot.tree.command(name="help", description="List all available commands and their descriptions.\n")
 async def help_command(interaction: discord.Interaction):
     commands = [
-        "/logon - Log on and set your current work status.",
-        "/logoff - Log off and set your work status to offline.",
-        "/startbreak - Start a break and provide a reason.",
-        "/endbreak - End your current break.",
-        "/status - Check the status of users who are logged in and on a break.",
-        "/work_summary - Get a summary of what each logged-in user is doing."
+        "/logon [work] - Log on and set your current work status.\n",
+        "/logoff [work] [attachment (optional)] - Log off and set your work status to offline. Optionally attach a file.\n",
+        "/startbreak [reason] - Start a break and provide a reason.\n",
+        "/endbreak - End your current break.\n",
+        "/status - Check the status of users who are logged in and on a break.\n",
+        "/work_summary - Get a summary of what each logged-in user is doing.\n",
+        "/meeting_schedule [time] [description] [zoom_link (optional)] [participants (optional)] - Schedule a meeting and notify participants.\n",
+        "/announce [message] [to_channel (optional)] [to_dm (optional)] - Send a team-wide announcement to a channel, DMs, or both with @everyone effect. (Admin only)\n",
+        "/poll [question] [options] [duration] [unit (optional)] - Create a poll with options and a duration. Unit can be 'seconds' or 'minutes'.\n",
+        "/help - List all available commands and their descriptions.\n"
     ]
     message = "Here are the available commands:\n" + "\n".join(commands)
     await interaction.response.send_message(message, ephemeral=True)
