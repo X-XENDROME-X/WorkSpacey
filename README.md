@@ -6,7 +6,7 @@
   <img src="Logo1.png" alt="WorkSpacey Logo" width="400"/>
 </p>
 
-Elevate your team's efficiency with WorkSpacey, a cutting-edge Discord bot that transforms your server into a productivity powerhouse! 💼✨
+Elevate your team's efficiency with WorkSpacey, a cutting-edge assistant that transforms your server into a productivity powerhouse! 💼✨
 
 ## 🌟 Unleash Your Team's Potential
 
@@ -42,7 +42,7 @@ WorkSpacey isn't just a bot; it's your personal productivity coach, time manager
 WorkSpacey isn't just about features; it's a testament to advanced coding prowess:
 
 1. **🔄 Asynchronous Mastery**: Harnessing the power of asyncio for seamless multitasking
-2. **🔌 API Sorcery**: Flawless integration with Discord's ecosystem
+2. **🔌 API Sorcery**: Flawless integration with the ecosystem
 3. **🌐 Time Zone Tamer**: Precision scheduling across global teams
 4. **🧠 Data Structure Dynamo**: Optimized information management for lightning-fast responses
 5. **🛡️ Error-Handling Hero**: Unshakeable stability in the face of challenges
