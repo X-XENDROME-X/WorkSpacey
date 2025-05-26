@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import os
 import pytz
 import re
+import asyncio
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -50,7 +51,8 @@ async def remind_long_break():
                 await user.send("Reminder: You've been on break for 5 hours. Please consider logging off.")
                 user_status[user_id]["last_notified"] = now
             except discord.Forbidden:
-                pass           
+                pass
+        
 
 @bot.event
 async def on_ready():
@@ -255,5 +257,101 @@ async def meeting_schedule(interaction: discord.Interaction, time: str, descript
             await interaction.response.send_message(f"An error occurred: {str(e)}", ephemeral=True)
         else:
             print(f"An error occurred: {str(e)}")
+            
+# Load admin role from environment variable, default to "Admin"
+ADMIN_ROLE = os.getenv("ADMIN_ROLE", "Admin").lower()
+
+@bot.tree.command(name="announce", description="Send a team-wide announcement to a channel, DMs, or both with @everyone effect.")
+async def announce(interaction: discord.Interaction, message: str, to_channel: discord.TextChannel = None, to_dm: bool = False):
+    await interaction.response.defer()
+
+    # Check if the user has the Admin role (case-insensitive)
+    if not any(role.name.lower() == ADMIN_ROLE for role in interaction.user.roles):
+        await interaction.followup.send("You don't have permission to use this command.", ephemeral=True)
+        return
+
+    # Ensure at least one target is specified
+    if to_channel is None and not to_dm:
+        await interaction.followup.send("Please specify at least one target: a channel or set to_dm to True.", ephemeral=True)
+        return
+
+    # Send to channel with @everyone ping if specified
+    if to_channel is not None:
+        await to_channel.send(f"🎉 @everyone Team Announcement: {message}")
+
+    # Send to DMs with notification effect if specified
+    if to_dm:
+        sent_count = 0
+        for member in interaction.guild.members:
+            if not member.bot:
+                try:
+                    await member.send(f"🎉 Team Announcement: {message}")
+                    sent_count += 1
+                except discord.Forbidden:
+                    pass  # Skip members who can't receive DMs
+                except Exception as e:
+                    print(f"Failed to send DM to {member}: {e}")
+
+    # Provide feedback
+    if to_channel and to_dm:
+        await interaction.followup.send(f"Announcement sent to {to_channel.mention} with @everyone ping and {sent_count} members via DM.", ephemeral=True)
+    elif to_channel:
+        await interaction.followup.send(f"Announcement sent to {to_channel.mention} with @everyone ping.", ephemeral=True)
+    elif to_dm:
+        await interaction.followup.send(f"Announcement sent to {sent_count} members via DM.", ephemeral=True)
+        
+async def poll_end_task(message, emoji_to_option, duration):
+    await asyncio.sleep(duration)
+    message = await message.channel.fetch_message(message.id)
+    votes = {option: 0 for option in emoji_to_option.values()}
+    for reaction in message.reactions:
+        if reaction.emoji in emoji_to_option:
+            async for user in reaction.users():
+                if not user.bot:  # Exclude bot's own reaction
+                    option = emoji_to_option[reaction.emoji]
+                    votes[option] += 1
+    max_votes = max(votes.values())
+    winners = [opt for opt, count in votes.items() if count == max_votes]
+    result = f"📊 Poll Results: {', '.join(winners)} with {max_votes} vote(s)."
+    if len(winners) > 1:
+        result += " (Tie!)"
+    await message.channel.send(result)
+
+@bot.tree.command(name="poll", description="Create a poll with options and a duration.")
+async def poll(interaction: discord.Interaction, question: str, options: str, duration: int, unit: str = "minutes"):
+    option_list = [opt.strip() for opt in options.split(",")]
+    if len(option_list) < 2:
+        await interaction.response.send_message("Please provide at least two options.", ephemeral=True)
+        return
+    if len(option_list) > 10:
+        await interaction.response.send_message("Maximum of 10 options allowed.", ephemeral=True)
+        return
+
+    # Convert duration based on unit and enforce 30-minute max
+    duration_seconds = duration * 60 if unit.lower() == "minutes" else duration
+    if unit.lower() not in ["seconds", "minutes"]:
+        await interaction.response.send_message("Unit must be 'seconds' or 'minutes'.", ephemeral=True)
+        return
+    if duration_seconds > 1800:  # 30 minutes in seconds
+        await interaction.response.send_message("Maximum duration is 30 minutes (1800 seconds).", ephemeral=True)
+        return
+
+    # Generate emojis and map to options
+    emojis = [f"{i}\ufe0f\u20e3" for i in range(1, len(option_list) + 1)]
+    emoji_to_option = dict(zip(emojis, option_list))
+
+    # Create poll message
+    poll_message = f"📊 Poll: {question}\n"
+    for emoji, option in emoji_to_option.items():
+        poll_message += f"{emoji} {option}\n"
+
+    # Send poll and add reactions
+    await interaction.response.send_message(poll_message)
+    message = await interaction.original_response()
+    for emoji in emojis:
+        await message.add_reaction(emoji)
+
+    # Schedule result calculation
+    bot.loop.create_task(poll_end_task(message, emoji_to_option, duration_seconds))
 
 bot.run(os.getenv('BOT_ID'))
